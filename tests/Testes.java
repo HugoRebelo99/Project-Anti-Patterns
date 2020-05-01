@@ -28,7 +28,7 @@ public class Testes {
         getIdade.setAccessible(true);
 
         int Idade = (int) getIdade.get(pessoa);
-        assertEquals(21, Idade);
+        assertEquals(20, Idade);
         System.out.println("Idade: " + Idade);
     }
 
