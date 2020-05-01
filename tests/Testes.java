@@ -11,8 +11,13 @@ public class Testes {
 
     @BeforeAll
     public static void setup() throws Exception {
+        assertThrows(PessoaNotValidatedException.class, () -> {
+            pessoa = new Pessoa("Ricardo", -1, "Esquina à direita como de quem vem da esquerda", "123456789");
+        });
 
-        pessoa = new Pessoa("Ricardo", 20, "Esquina à direita como de quem vem da esquerda");
+        assertDoesNotThrow(() -> {
+            pessoa = new Pessoa("Ricardo", 20, "Esquina à direita como de quem vem da esquerda", "123456789");
+        });
         System.out.println("Uma nova pessoa foi criada.");
     }
 
@@ -23,23 +28,22 @@ public class Testes {
         assertEquals("Ricardo", pessoa.getNome());
         System.out.println("Nome: " + pessoa.getNome());
 
-        pessoa.Envelhecer();
         Field getIdade = Pessoa.class.getDeclaredField("idade");
         getIdade.setAccessible(true);
 
         int Idade = (int) getIdade.get(pessoa);
-        assertEquals(20, Idade);
+        assertEquals(21, Idade);
         System.out.println("Idade: " + Idade);
     }
 
     @Test
     public void testPessoa2(){
-        assertEquals(21, pessoa.getIdade());
+        assertEquals("123456789", pessoa.getContribuinte());
     }
 
     @Test
     public void testPessoaMorada() throws Exception {
-        Pessoa p = new Pessoa("Hugo", 20, "Ali debaixo da ponte");
+        Pessoa p = new Pessoa("Hugo", 20, "Ali debaixo da ponte", "987654321");
         assertEquals("Ali debaixo da ponte", p.getMorada());
         System.out.println("Morada: " + p.getMorada());
     }
@@ -52,7 +56,7 @@ public class Testes {
             Thread.sleep(100);
         }
         assertThrows(PessoaNotValidatedException.class, () ->{
-            Pessoa pessoa = new Pessoa("David", 22, "");
+            Pessoa pessoa = new Pessoa("David", 22, "", "123459876");
         });
 
     }
